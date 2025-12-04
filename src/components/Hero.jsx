@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { useEffect, useState } from "react";
 import { loadSlim } from "@tsparticles/slim";
-import Typewriter from 'typewriter-effect'; // <-- CAMBIO 1: El import es diferente
+import Typewriter from 'typewriter-effect';
+import { FaFileDownload } from 'react-icons/fa'; // <-- 1. IMPORTAMOS EL ÍCONO
 import profileImg from '../assets/profile.jpg';
 
 const Hero = () => {
@@ -63,7 +64,6 @@ const Hero = () => {
           />
           <h1 className="text-5xl md:text-6xl font-bold mb-4 text-light-text">¡Hola! Soy Peter</h1>
           
-          {/* --- CAMBIO 2: La forma de usar Typewriter es diferente --- */}
           <div className="text-xl mb-8 max-w-2xl mx-auto text-dark-text">
             <Typewriter
               options={{
@@ -76,14 +76,34 @@ const Hero = () => {
             />
           </div>
 
-          <motion.button
-            onClick={handleScrollToProjects}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-transparent hover:bg-primary/10 text-primary font-semibold py-3 px-8 border border-primary rounded-lg transition-colors duration-300"
-          >
-            Ver Mis Proyectos
-          </motion.button>
+          {/* --- CAMBIO 2: CONTENEDOR FLEX PARA LOS BOTONES --- */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            
+            {/* Botón existente (Estilo "Outline" o Borde) */}
+            <motion.button
+              onClick={handleScrollToProjects}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-transparent hover:bg-primary/10 text-primary font-semibold py-3 px-8 border border-primary rounded-lg transition-colors duration-300 w-full sm:w-auto"
+            >
+              Ver Mis Proyectos
+            </motion.button>
+
+            {/* --- CAMBIO 3: NUEVO BOTÓN DE DESCARGAR CV (Estilo Sólido) --- */}
+            <motion.a
+
+              href={`${import.meta.env.BASE_URL}CV-Peter-Guette`}
+              download="CV_Peter_Guette.pdf" // Nombre con el que se guardará al descargar
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center justify-center gap-2 bg-primary text-background font-bold py-3 px-8 rounded-lg transition-colors duration-300 hover:bg-opacity-80 w-full sm:w-auto"
+            >
+              <FaFileDownload />
+              Descargar CV
+            </motion.a>
+
+          </div>
+
         </motion.div>
       </div>
     </section>
