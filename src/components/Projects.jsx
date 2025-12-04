@@ -54,12 +54,23 @@ const Projects = () => {
             <motion.div
               key={project.title}
               // CAMBIO 3: Estilo de tarjeta para tema oscuro
-              className="bg-card rounded-lg shadow-xl flex flex-col justify-between border border-transparent hover:border-primary transition-colors duration-300"
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-card rounded-lg flex flex-col justify-between border border-transparent 
+             transition-colors duration-300 
+             hover:border-primary/50 
+             hover:shadow-[0_10px_30px_-15px_rgba(100,255,218,0.3)]"
+  
+  variants={cardVariants}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true }}
+  
+  // Esta es la transición de entrada (con delay)
+  transition={{ duration: 0.5, delay: index * 0.1 }} 
+  
+  // 2. AGREGAMOS ESTO: El hover controlado por Framer (sin delay)
+  whileHover={{ 
+    y: -7, 
+    transition: { duration: 0.2, delay: 0 } }}
             >
               {/* Contenedor principal de la tarjeta */}
               <div>
