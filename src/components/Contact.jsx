@@ -31,7 +31,7 @@ const Contact = () => {
     if (commonTypos.includes(domain)) {
       // Intentamos adivinar qué quiso decir para darle un mensaje útil
       const suggestion = domain
-        .replace(/gmoli|gmil|gmal|gmai|gimail|gamail,gmali/, 'gmail')
+        .replace(/gmoli|gmil|gmal|gmai|gimail|gamail|gmali/, 'gmail')
         .replace(/hotmal/, 'hotmail')
         .replace(/outlok|otlook/, 'outlook')
         .replace(/yahooo/, 'yahoo');
