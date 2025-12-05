@@ -25,7 +25,7 @@ const Contact = () => {
     // Lista de errores comunes que queremos bloquear
     const commonTypos = [
       'gmoli.com', 'gmil.com', 'gmal.com', 'gmai.com', 'gimail.com',
-      'hotmal.com', 'hotmail.co', 'outlok.com', 'otlook.com', 'yahooo.com','gamail','gmali'
+      'hotmal.com', 'hotmail.co', 'outlok.com', 'otlook.com', 'yahooo.com','gamail.com','gmali.com'
     ];
 
     if (commonTypos.includes(domain)) {
