@@ -8,17 +8,38 @@ const Contact = () => {
   const [status, setStatus] = useState(null); // null, 'sending', 'success', 'error'
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 👇 VALIDACIÓN FLEXIBLE
+  // 👇 VALIDACIÓN MEJORADA (Flexible + Anti-Typos)
   const validateEmail = (email) => {
-    // Esta expresión regular verifica la estructura "texto@texto.texto"
-    // Funciona con .com, .edu.co, .net, .io, etc.
+    // 1. Validación de estructura básica (Sintaxis)
+    // Acepta cualquier dominio (incluyendo .edu.co, .tech, etc.)
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
     if (!regex.test(email)) {
-      return "Por favor ingresa un correo válido (ej: usuario@dominio.com o .edu.co)";
+      return "Por favor ingresa un correo válido (ej: usuario@dominio.com)";
     }
 
-    return null;
+    // 2. Validación de "Errores de Dedo" comunes
+    // Separamos el dominio (lo que va después del @)
+    const domain = email.split('@')[1].toLowerCase();
+    
+    // Lista de errores comunes que queremos bloquear
+    const commonTypos = [
+      'gmoli.com', 'gmil.com', 'gmal.com', 'gmai.com', 'gimail.com',
+      'hotmal.com', 'hotmail.co', 'outlok.com', 'otlook.com', 'yahooo.com','gamail','gmali'
+    ];
+
+    if (commonTypos.includes(domain)) {
+      // Intentamos adivinar qué quiso decir para darle un mensaje útil
+      const suggestion = domain
+        .replace(/gmoli|gmil|gmal|gmai|gimail|gamail,gmali/, 'gmail')
+        .replace(/hotmal/, 'hotmail')
+        .replace(/outlok|otlook/, 'outlook')
+        .replace(/yahooo/, 'yahoo');
+
+      return `¿Quisiste decir @${suggestion}.com? Verifica tu correo.`;
+    }
+
+    return null; // Si pasa ambas pruebas, es válido
   };
 
   const sendEmail = (e) => {
@@ -26,13 +47,14 @@ const Contact = () => {
     setErrorMessage('');
     setStatus(null);
 
-    const userEmail = form.current.user_email.value;
+    // .trim() elimina espacios en blanco accidentales al final
+    const userEmail = form.current.user_email.value.trim();
 
     // Ejecutamos la validación
     const validationError = validateEmail(userEmail);
     if (validationError) {
       setErrorMessage(validationError);
-      return; // 🛑 Si el formato está mal, no enviamos nada.
+      return; // 🛑 Si el formato está mal o es un typo, no enviamos nada.
     }
 
     setStatus('sending');
@@ -76,7 +98,7 @@ const Contact = () => {
           </p>
           
           <div className="flex justify-center space-x-8 mb-10">
-            <a href="https://wa.link/sz20vh" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
+            <a href="https://wa.link/sz20vh" target="_blank" rel="noopener noreferrer" className="text-3xl text-dark-text hover:text-[#25D366] transition-colors duration-300">
               <FaWhatsapp />
             </a>
             <a href="https://www.linkedin.com/in/peter-güette-433871319" target="_blank" rel="noopener noreferrer" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
