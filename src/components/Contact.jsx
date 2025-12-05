@@ -5,41 +5,38 @@ import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const form = useRef();
-  const [status, setStatus] = useState(null); // null, 'sending', 'success', 'error'
+  const [status, setStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 👇 VALIDACIÓN MEJORADA (Flexible + Anti-Typos)
   const validateEmail = (email) => {
-    // 1. Validación de estructura básica (Sintaxis)
-    // Acepta cualquier dominio (incluyendo .edu.co, .tech, etc.)
+    // 1. Validación de estructura básica
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
     if (!regex.test(email)) {
       return "Por favor ingresa un correo válido (ej: usuario@dominio.com)";
     }
 
     // 2. Validación de "Errores de Dedo" comunes
-    // Separamos el dominio (lo que va después del @)
     const domain = email.split('@')[1].toLowerCase();
     
-    // Lista de errores comunes que queremos bloquear
     const commonTypos = [
       'gmoli.com', 'gmil.com', 'gmal.com', 'gmai.com', 'gimail.com',
-      'hotmal.com', 'hotmail.co', 'outlok.com', 'otlook.com', 'yahooo.com','gamail.com','gmali.com'
+      'hotmal.com', 'hotmail.co', 'outlok.com', 'otlook.com', 'yahooo.com',
+      'gamail.com', 'gmali.com'
     ];
 
     if (commonTypos.includes(domain)) {
-      // Intentamos adivinar qué quiso decir para darle un mensaje útil
+      // Corregimos el dominio completo
       const suggestion = domain
         .replace(/gmoli|gmil|gmal|gmai|gimail|gamail|gmali/, 'gmail')
         .replace(/hotmal/, 'hotmail')
         .replace(/outlok|otlook/, 'outlook')
         .replace(/yahooo/, 'yahoo');
 
-      return `¿Quisiste decir @${suggestion}.com? Verifica tu correo.`;
+      // OJO: Quité el ".com" extra aquí porque "suggestion" ya lo trae
+      return `¿Quisiste decir @${suggestion}? Verifica tu correo.`;
     }
 
-    return null; // Si pasa ambas pruebas, es válido
+    return null;
   };
 
   const sendEmail = (e) => {
@@ -47,19 +44,17 @@ const Contact = () => {
     setErrorMessage('');
     setStatus(null);
 
-    // .trim() elimina espacios en blanco accidentales al final
     const userEmail = form.current.user_email.value.trim();
 
-    // Ejecutamos la validación
     const validationError = validateEmail(userEmail);
     if (validationError) {
       setErrorMessage(validationError);
-      return; // 🛑 Si el formato está mal o es un typo, no enviamos nada.
+      return;
     }
 
     setStatus('sending');
 
-    // TUS CREDENCIALES DE EMAILJS
+    // TUS CREDENCIALES (Asegúrate que sean las reales)
     const SERVICE_ID = 'service_v6a4gwp';
     const TEMPLATE_ID = 'template_dy7wy6h';
     const PUBLIC_KEY = 'nXSoTnnPq4AFl4lVo';
@@ -118,10 +113,9 @@ const Contact = () => {
               className="w-full p-4 bg-card border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-light-text"
             />
             
-            {/* Campo de Email */}
             <div>
               <input
-                type="text" // Usamos type="text" para controlar la validación nosotros mismos
+                type="text"
                 name="user_email"
                 placeholder="Tu Email"
                 required
@@ -129,7 +123,6 @@ const Contact = () => {
                   errorMessage ? 'border-red-500 focus:ring-red-500' : 'border-slate-700 focus:ring-primary'
                 }`}
               />
-              {/* Mensaje de error condicional */}
               {errorMessage && (
                 <p className="text-red-400 text-sm text-left mt-2 ml-1 animate-pulse">
                   ⚠️ {errorMessage}
