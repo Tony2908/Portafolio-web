@@ -6,7 +6,6 @@ import { loadSlim } from "@tsparticles/slim";
 import Typewriter from 'typewriter-effect';
 import { FaFileDownload } from 'react-icons/fa'; // <-- 1. IMPORTAMOS EL ÍCONO
 import profileImg from '../assets/profile.jpg';
-import cvFile from '../assets/cv.pdf';
 
 const Hero = () => {
   const [init, setInit] = useState(false);
@@ -93,7 +92,7 @@ const Hero = () => {
             {/* --- CAMBIO 3: NUEVO BOTÓN DE DESCARGAR CV (Estilo Sólido) --- */}
             <motion.a
 
-              href={cvFile} 
+              href={`${import.meta.env.BASE_URL}cv.pdf`}
               download="CV_Peter_Guette.pdf" // Este es el nombre con el que se le guardará a la gente
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

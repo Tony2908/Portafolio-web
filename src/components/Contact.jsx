@@ -1,28 +1,52 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa';
-import emailjs from '@emailjs/browser'; // Importamos la librería
+import { FaEnvelope, FaLinkedin, FaGithub, FaWhatsapp } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
-  const form = useRef(); // Referencia al formulario
+  const form = useRef();
   const [status, setStatus] = useState(null); // null, 'sending', 'success', 'error'
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // 👇 VALIDACIÓN FLEXIBLE
+  const validateEmail = (email) => {
+    // Esta expresión regular verifica la estructura "texto@texto.texto"
+    // Funciona con .com, .edu.co, .net, .io, etc.
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!regex.test(email)) {
+      return "Por favor ingresa un correo válido (ej: usuario@dominio.com o .edu.co)";
+    }
+
+    return null;
+  };
 
   const sendEmail = (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+    e.preventDefault();
+    setErrorMessage('');
+    setStatus(null);
+
+    const userEmail = form.current.user_email.value;
+
+    // Ejecutamos la validación
+    const validationError = validateEmail(userEmail);
+    if (validationError) {
+      setErrorMessage(validationError);
+      return; // 🛑 Si el formato está mal, no enviamos nada.
+    }
+
     setStatus('sending');
 
-    // 👇 REEMPLAZA ESTOS DATOS CON TUS CREDENCIALES REALES DE EMAILJS
-    const SERVICE_ID = 'service_v6a4gwp';
-    const TEMPLATE_ID = 'template_dy7wy6h';
-    const PUBLIC_KEY = 'nXSoTnnPq4AFl4lVo';
+    // TUS CREDENCIALES DE EMAILJS
+    const SERVICE_ID = 'TU_SERVICE_ID';
+    const TEMPLATE_ID = 'TU_TEMPLATE_ID';
+    const PUBLIC_KEY = 'TU_PUBLIC_KEY';
 
     emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
       .then((result) => {
           console.log(result.text);
           setStatus('success');
-          form.current.reset(); // Limpia el formulario
-          
-          // Borra el mensaje de éxito después de 5 segundos
+          form.current.reset();
           setTimeout(() => setStatus(null), 5000);
       }, (error) => {
           console.log(error.text);
@@ -52,35 +76,47 @@ const Contact = () => {
           </p>
           
           <div className="flex justify-center space-x-8 mb-10">
-            <a href="mailto:tuemail@example.com" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
-              <FaEnvelope />
+            <a href="https://wa.link/sz20vh" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
+              <FaWhatsapp />
             </a>
-            <a href="https://linkedin.com/in/tuusuario" target="_blank" rel="noopener noreferrer" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
+            <a href="https://www.linkedin.com/in/peter-güette-433871319" target="_blank" rel="noopener noreferrer" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
               <FaLinkedin />
             </a>
-            <a href="https://github.com/tuusuario" target="_blank" rel="noopener noreferrer" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
+            <a href="https://github.com/Tony2908" target="_blank" rel="noopener noreferrer" className="text-3xl text-dark-text hover:text-primary transition-colors duration-300">
               <FaGithub />
             </a>
           </div>
           
-          {/* Conectamos el formulario con ref y onSubmit */}
           <form ref={form} onSubmit={sendEmail} className="space-y-6">
             <input
               type="text"
-              name="user_name" // IMPORTANTE: Debe coincidir con tu plantilla de EmailJS
+              name="user_name"
               placeholder="Tu Nombre"
-              required // Hacemos el campo obligatorio
-              className="w-full p-4 bg-card border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-light-text"
-            />
-            <input
-              type="email"
-              name="user_email" // IMPORTANTE
-              placeholder="Tu Email"
               required
               className="w-full p-4 bg-card border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-light-text"
             />
+            
+            {/* Campo de Email */}
+            <div>
+              <input
+                type="text" // Usamos type="text" para controlar la validación nosotros mismos
+                name="user_email"
+                placeholder="Tu Email"
+                required
+                className={`w-full p-4 bg-card border rounded-lg focus:outline-none focus:ring-2 text-light-text ${
+                  errorMessage ? 'border-red-500 focus:ring-red-500' : 'border-slate-700 focus:ring-primary'
+                }`}
+              />
+              {/* Mensaje de error condicional */}
+              {errorMessage && (
+                <p className="text-red-400 text-sm text-left mt-2 ml-1 animate-pulse">
+                  ⚠️ {errorMessage}
+                </p>
+              )}
+            </div>
+
             <textarea
-              name="message" // IMPORTANTE
+              name="message"
               placeholder="Tu Mensaje"
               rows="5"
               required
@@ -91,13 +127,12 @@ const Contact = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              disabled={status === 'sending'} // Desactiva el botón mientras envía
+              disabled={status === 'sending'}
               className={`w-full bg-primary text-background font-bold py-3 rounded-lg hover:bg-opacity-90 transition ${status === 'sending' ? 'opacity-70 cursor-not-allowed' : ''}`}
             >
               {status === 'sending' ? 'Enviando...' : 'Enviar Mensaje'}
             </motion.button>
 
-            {/* Mensajes de feedback */}
             {status === 'success' && (
               <p className="text-green-400 font-semibold mt-4">¡Mensaje enviado con éxito! Te responderé pronto.</p>
             )}
