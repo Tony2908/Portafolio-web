@@ -5,38 +5,49 @@ import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const form = useRef();
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState(null); 
   const [errorMessage, setErrorMessage] = useState('');
 
+  // 👇 VALIDACIÓN DEFINITIVA (Uso de Diccionario)
   const validateEmail = (email) => {
-    // 1. Validación de estructura básica
+    // 1. Sintaxis básica
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
     if (!regex.test(email)) {
       return "Por favor ingresa un correo válido (ej: usuario@dominio.com)";
     }
 
-    // 2. Validación de "Errores de Dedo" comunes
+    // 2. Anti-Typos con Diccionario Exacto
     const domain = email.split('@')[1].toLowerCase();
     
-    const commonTypos = [
-      'gmoli.com', 'gmil.com', 'gmal.com', 'gmai.com', 'gimail.com',
-      'hotmal.com', 'hotmail.co', 'outlok.com', 'otlook.com', 'yahooo.com',
-      'gamail.com', 'gmali.com'
-    ];
+    // En lugar de una lista simple, usamos un objeto "Clave -> Valor"
+    // Izquierda: El error del usuario -> Derecha: La corrección correcta
+    const domainCorrections = {
+      'gmoli.com': 'gmail.com',
+      'gmil.com': 'gmail.com',
+      'gmal.com': 'gmail.com',
+      'gmai.com': 'gmail.com',
+      'gimail.com': 'gmail.com',
+      'gamail.com': 'gmail.com',
+      'gmali.com': 'gmail.com', // El que te fallaba
+      
+      'hotmal.com': 'hotmail.com',
+      'hotmail.co': 'hotmail.com',
+      'hotmai.com': 'hotmail.com',
+      
+      'outlok.com': 'outlook.com',
+      'otlook.com': 'outlook.com',
+      
+      'yahooo.com': 'yahoo.com'
+    };
 
-    if (commonTypos.includes(domain)) {
-      // Corregimos el dominio completo
-      const suggestion = domain
-        .replace(/gmoli|gmil|gmal|gmai|gimail|gamail|gmali/, 'gmail')
-        .replace(/hotmal/, 'hotmail')
-        .replace(/outlok|otlook/, 'outlook')
-        .replace(/yahooo/, 'yahoo');
-
-      // OJO: Quité el ".com" extra aquí porque "suggestion" ya lo trae
-      return `¿Quisiste decir @${suggestion}? Verifica tu correo.`;
+    // Verificamos si el dominio escrito está en nuestra lista de errores
+    if (domainCorrections.hasOwnProperty(domain)) {
+      // Si existe, sugerimos el valor correcto directamente
+      return `¿Quisiste decir @${domainCorrections[domain]}? Verifica tu correo.`;
     }
 
-    return null;
+    return null; 
   };
 
   const sendEmail = (e) => {
@@ -54,7 +65,7 @@ const Contact = () => {
 
     setStatus('sending');
 
-    // TUS CREDENCIALES (Asegúrate que sean las reales)
+    // TUS CREDENCIALES
     const SERVICE_ID = 'service_v6a4gwp';
     const TEMPLATE_ID = 'template_dy7wy6h';
     const PUBLIC_KEY = 'nXSoTnnPq4AFl4lVo';
