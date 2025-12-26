@@ -92,7 +92,7 @@ const Hero = () => {
             {/* --- CAMBIO 3: NUEVO BOTÓN DE DESCARGAR CV (Estilo Sólido) --- */}
             <motion.a
 
-              href={`${import.meta.env.BASE_URL}cv.pdf`}
+              href={`${import.meta.env.BASE_URL}CV.pdf`}
               download="CV_Peter_Guette.pdf" // Este es el nombre con el que se le guardará a la gente
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
