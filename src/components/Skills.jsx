@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGitAlt, FaJava } from 'react-icons/fa';
-import { SiMysql, SiMongodb } from 'react-icons/si';
+import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGitAlt, FaJava, FaDatabase, FaTheaterMasks } from 'react-icons/fa';
+import { SiMysql, SiMongodb, SiAppium, SiJenkins, SiPostman } from 'react-icons/si';
 import { BiLogoSpringBoot } from 'react-icons/bi';
 
 const Skills = () => {
@@ -10,12 +10,17 @@ const Skills = () => {
     { name: 'CSS3', icon: <FaCss3Alt className="text-blue-500" />, level: 'Avanzado' },
     { name: 'JavaScript', icon: <FaJs className="text-yellow-400" />, level: 'Avanzado' },
     { name: 'React', icon: <FaReact className="text-sky-400" />, level: 'Avanzado' },
-    { name: 'Node.js', icon: <FaNodeJs className="text-green-500" />, level: 'Intermedio' },
-    { name: 'Git', icon: <FaGitAlt className="text-orange-600" />, level: 'Avanzado' },
+    { name: 'Node.js', icon: <FaNodeJs className="text-green-500" />, level: 'Avanzado' },
     { name: 'Java', icon: <FaJava className="text-red-500" />, level: 'Avanzado' },
     { name: 'Spring Boot', icon: <BiLogoSpringBoot className="text-green-600" />, level: 'Avanzado' },
+    { name: 'SQL', icon: <FaDatabase className="text-blue-400" />, level: 'Avanzado' },
     { name: 'MySQL', icon: <SiMysql className="text-blue-600" />, level: 'Avanzado' },
     { name: 'MongoDB', icon: <SiMongodb className="text-green-700" />, level: 'Avanzado' },
+    { name: 'Playwright', icon: <FaTheaterMasks className="text-emerald-400" />, level: 'Avanzado' },
+    { name: 'Appium', icon: <SiAppium className="text-purple-500" />, level: 'Avanzado' },
+    { name: 'Postman', icon: <SiPostman className="text-orange-500" />, level: 'Avanzado' },
+    { name: 'Jenkins', icon: <SiJenkins className="text-red-500" />, level: 'Avanzado' },
+    { name: 'Git', icon: <FaGitAlt className="text-orange-600" />, level: 'Avanzado' },
   ];
 
   const cardVariants = {
@@ -50,9 +55,8 @@ const Skills = () => {
               <div className="text-5xl mb-4">{skill.icon}</div>
               {/* --- CAMBIO 4: Colores del texto dentro de la tarjeta --- */}
               <h3 className="text-lg font-semibold text-light-text">{skill.name}</h3>
-              <span className={`mt-2 px-3 py-1 text-xs font-bold rounded-full ${
-                skill.level === 'Avanzado' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-gray-800'
-              }`}>
+              <span className={`mt-2 px-3 py-1 text-xs font-bold rounded-full ${skill.level === 'Avanzado' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-gray-800'
+                }`}>
                 {skill.level}
               </span>
             </motion.div>

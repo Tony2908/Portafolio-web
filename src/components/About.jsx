@@ -24,8 +24,7 @@ const About = () => {
         >
           {/* --- CAMBIO 2: Color del párrafo principal --- */}
           <p className="text-lg text-dark-text mb-12">
-            Soy desarrollador web con conocimientos en frontend y backend, con enfoque en crear soluciones digitales funcionales, escalables y centradas en la experiencia del usuario.
-            Me apasiona la tecnología, la innovación y el desarrollo de proyectos que generen impacto real mediante código eficiente y bien estructurado.
+           Soy Desarrollador Full Stack y QA Tester enfocado en construir y asegurar la calidad de soluciones digitales escalables. Mi experiencia abarca desde el diseño en frontend y backend hasta la implementación de estrategias sólidas de automatización de pruebas. Me apasiona entregar software eficiente y centrado en el usuario, combinando innovación técnica con un riguroso control de calidad para generar un impacto real.
           </p>
 
           {/* --- CAMBIO 3: Tarjetas para Educación y Experiencia --- */}
@@ -33,13 +32,13 @@ const About = () => {
             {/* Tarjeta de Educación */}
             <div className="bg-card p-8 rounded-lg shadow-lg text-left">
               <h3 className="text-2xl font-semibold mb-3 text-light-text">Educación</h3>
-              <p className="text-dark-text">Estudiante de Análisis y desarrollo de Software</p>
+              <p className="text-dark-text">Tecnologo en Análisis y desarrollo de Software</p>
             </div>
             
             {/* Tarjeta de Experiencia */}
             <div className="bg-card p-8 rounded-lg shadow-lg text-left">
               <h3 className="text-2xl font-semibold mb-3 text-light-text">Experiencia</h3>
-              <p className="text-dark-text">Freelance en proyectos web para startups</p>
+              <p className="text-dark-text">Desarrollador Full stack y QA Tester</p>
             </div>
           </div>
         </motion.div>

@@ -67,7 +67,7 @@ const Hero = () => {
           <div className="text-xl mb-8 max-w-2xl mx-auto text-dark-text">
             <Typewriter
               options={{
-                strings: ['Desarrollador Web.', 'Apasionado por la tecnología.', 'Creador de soluciones digitales.'],
+                strings: ['Desarrollador Full Stack.', 'QA Tester.'],
                 autoStart: true,
                 loop: true,
                 delay: 70,
